@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and HSRL and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.0
-Release:        427
+Release:        428
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -89,7 +89,7 @@ Patch6000:      CVE-2018-18312-1.patch
 Patch6001:      CVE-2018-18312-2.patch
 Patch6002:      CVE-2018-18312-3.patch
 
-BuildRequires:  gcc bash findutils coreutils make tar procps
+BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
 
 Requires:       perl(:MODULE_COMPAT_5.28.0) perl-version perl-threads perl-threads-shared perl-parent
@@ -505,6 +505,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 29 2019 shenyangyang<shenyangyang4@huawei.com> - 4:5.28.0-428
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:add build requires of bzip2-devel and gdbm-devel to solve build problem
+
 * Wed Sep 18 2019 shenyangyang<shenyangyang4@huawei.com> - 4:5.28.0-427
 - Type:enhancement
 - ID:NA
