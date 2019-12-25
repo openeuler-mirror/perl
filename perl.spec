@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and HSRL and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.0
-Release:        428
+Release:        429
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -29,29 +29,29 @@ Source2:        macros.perl
 # build requirement. Written by lberk; Not yet upstream.
 Source3:        perl.stp
 
-# PATCH-FEATURE-EULEROS
+# PATCH-FEATURE-OPENEULER
 Patch1:         perl-5.8.0-libdir64.patch
-# PATCH-FIX-EULEROS--rh#151127
+# PATCH-FIX-OPENEULER--rh#151127
 Patch2:         perl-5.10.0-libresolv.patch
-# PATCH-FEATURE-EULEROS
+# PATCH-FEATURE-OPENEULER
 Patch3:         perl-USE_MM_LD_RUN_PATH.patch
-# PATCH-FIX-EULEROS--rh#1129443
+# PATCH-FIX-OPENEULER--rh#1129443
 Patch4:         perl-5.22.1-Provide-ExtUtils-MM-methods-as-standalone-ExtUtils-M.patch
-# PATCH-FIX-EULEROS
+# PATCH-FIX-OPENEULER
 Patch5:         perl-5.16.3-create_libperl_soname.patch
-# PATCH-FEATURE-EULEROS
+# PATCH-FEATURE-OPENEULER
 Patch6:         perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
-# PATCH-FIX-EULEROS--CPAN RT#85015
+# PATCH-FIX-OPENEULER--CPAN RT#85015
 Patch7:        perl-5.18.1-Document-Math-BigInt-CalcEmu-requires-Math-BigInt.patch
-# PATCH-FIX-EULEROS--rh#1107543, RT#61912
+# PATCH-FIX-OPENEULER--rh#1107543, RT#61912
 Patch8:        perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
-# PATCH-FIX-EULEROS--rh#1129443
+# PATCH-FIX-OPENEULER--rh#1129443
 Patch9:        perl-5.22.1-Replace-EU-MM-dependnecy-with-EU-MM-Utils-in-IPC-Cmd.patch
-# PATCH-FIX-EULEROS--RT#131588
+# PATCH-FIX-OPENEULER--RT#131588
 Patch10:        perl-5.26.0-perl-131588-be-a-little-more-careful-in-arybase-_tie.patch
-# PATCH-FIX-EULEROS
+# PATCH-FIX-OPENEULER
 Patch11:        perl-5.27.8-hints-linux-Add-lphtread-to-lddlflags.patch
-# PATCH-FIX-EULEROS--RT#133295
+# PATCH-FIX-OPENEULER--RT#133295
 Patch12:        perl-5.29.0-Remove-ext-GDBM_File-t-fatal.t.patch
 # PATCH-FIX-UPSTREAM--RT#133204, upstream 5.29.0
 Patch13:        Perl_my_setenv-handle-integer-wrap.patch
@@ -80,9 +80,9 @@ Patch24:        multiconcat-mutator-not-seen-in-lex.patch
 Patch25:        perl-132683-don-t-try-to-convert-PL_sv_placeholder-i.patch
 # PATCH-FIX-UPSTREAM-- RT#132655, upstream 5.29.2
 Patch26:        perl-132655-nul-terminate-result-of-unpack-u-of-inva.patch
-# PATCH-FIX-EULEROS--rh#960048
+# PATCH-FIX-OPENEULER--rh#960048
 Patch27:       perl-5.16.3-Link-XS-modules-to-libperl.so-with-EU-CBuilder-on-Li.patch
-# PATCH-FIX-EULEROS--rh#960048
+# PATCH-FIX-OPENEULER--rh#960048
 Patch28:       perl-5.16.3-Link-XS-modules-to-libperl.so-with-EU-MM-on-Linux.patch
 
 Patch6000:      CVE-2018-18312-1.patch
@@ -505,6 +505,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Mon Dec 23 2019 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-429
+- Type:NA
+- ID:NA
+- SUG:NA
+- DESC:change info in comments and changelog
+
 * Tue Oct 29 2019 shenyangyang<shenyangyang4@huawei.com> - 4:5.28.0-428
 - Type:enhancement
 - ID:NA
