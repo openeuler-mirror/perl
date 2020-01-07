@@ -1,0 +1,26 @@
+From 3a98cffd49b91e1b26846bb9a06446353a217b57 Mon Sep 17 00:00:00 2001
+From: openEuler Buildteam <buildteam@openeuler.org>
+Date: Mon, 30 Dec 2019 14:57:15 +0800
+Subject: [PATCH] disable rpath by default
+
+---
+ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+index fe53be1..fd0f5b5 100644
+--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+@@ -1045,9 +1045,6 @@ sub xs_make_dynamic_lib {
+     }
+ 
+     my $ld_run_path_shell = "";
+-    if ($self->{LD_RUN_PATH} ne "") {
+-        $ld_run_path_shell = 'LD_RUN_PATH="$(LD_RUN_PATH)" ';
+-    }
+ 
+     push @m, sprintf <<'MAKE', $ld_run_path_shell, $ldrun, $dlsyms_arg, $ldfrom, $self->xs_obj_opt('$@'), $libs, $exportlist;
+ 	%s$(LD) %s $(LDDLFLAGS) %s %s $(OTHERLDFLAGS) %s $(MYEXTLIB) \
+-- 
+1.8.3.1
+
