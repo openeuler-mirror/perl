@@ -1,6 +1,16 @@
-diff -up perl-5.28.0-RC1/Configure.orig   perl-5.28.0-RC1/Configure
---- perl-5.28.0-RC1/Configure.orig   2018-05-21 12:44:04.000000000 +0200
-+++ perl-5.28.0-RC1/Configure	2018-05-22 12:21:53.908599933 +0200
+From 49abb326542984cecc5e61b3b66822b52cdc34e7 Mon Sep 17 00:00:00 2001
+From: openEuler Buildteam <buildteam@openeuler.org>
+Date: Mon, 30 Dec 2019 14:49:06 +0800
+Subject: [PATCH] change lib to lib64
+
+---
+ Configure | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Configure b/Configure
+index 3be9f05..1c53af7 100755
+--- a/Configure
++++ b/Configure
 @@ -7269,8 +7269,8 @@ esac'
  : Reproduce behavior of 5.005 and earlier, maybe drop that in 5.7.
  case "$installstyle" in
@@ -45,3 +55,6 @@ diff -up perl-5.28.0-RC1/Configure.orig   perl-5.28.0-RC1/Configure
  		esac
  		;;
  	*)	dflt="$vendorlib"
+-- 
+1.8.3.1
+

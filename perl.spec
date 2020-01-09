@@ -18,41 +18,21 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and HSRL and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.0
-Release:        429
+Release:        430
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
-#we list the different licenses of subpackages in this file
-Source1:        perl_subpkg_license
-Source2:        macros.perl
-#Systemtap tapset and example that make use of systemtap-sdt-devel
-# build requirement. Written by lberk; Not yet upstream.
-Source3:        perl.stp
 
 # PATCH-FEATURE-OPENEULER
-Patch1:         perl-5.8.0-libdir64.patch
-# PATCH-FIX-OPENEULER--rh#151127
-Patch2:         perl-5.10.0-libresolv.patch
+Patch1:         change-lib-to-lib64.patch
 # PATCH-FEATURE-OPENEULER
-Patch3:         perl-USE_MM_LD_RUN_PATH.patch
-# PATCH-FIX-OPENEULER--rh#1129443
-Patch4:         perl-5.22.1-Provide-ExtUtils-MM-methods-as-standalone-ExtUtils-M.patch
+Patch3:         disable-rpath-by-default.patch
 # PATCH-FIX-OPENEULER
-Patch5:         perl-5.16.3-create_libperl_soname.patch
-# PATCH-FEATURE-OPENEULER
-Patch6:         perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
-# PATCH-FIX-OPENEULER--CPAN RT#85015
-Patch7:        perl-5.18.1-Document-Math-BigInt-CalcEmu-requires-Math-BigInt.patch
+Patch5:         create-libperl-soname.patch
 # PATCH-FIX-OPENEULER--rh#1107543, RT#61912
-Patch8:        perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
-# PATCH-FIX-OPENEULER--rh#1129443
-Patch9:        perl-5.22.1-Replace-EU-MM-dependnecy-with-EU-MM-Utils-in-IPC-Cmd.patch
-# PATCH-FIX-OPENEULER--RT#131588
-Patch10:        perl-5.26.0-perl-131588-be-a-little-more-careful-in-arybase-_tie.patch
-# PATCH-FIX-OPENEULER
-Patch11:        perl-5.27.8-hints-linux-Add-lphtread-to-lddlflags.patch
+Patch8:         perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
 # PATCH-FIX-OPENEULER--RT#133295
-Patch12:        perl-5.29.0-Remove-ext-GDBM_File-t-fatal.t.patch
+Patch12:        delete-ext-GDBM_File-t-fatal.t.patch
 # PATCH-FIX-UPSTREAM--RT#133204, upstream 5.29.0
 Patch13:        Perl_my_setenv-handle-integer-wrap.patch
 # PATCH-FIX-UPSTREAM-- upstream 5.29.0
@@ -80,10 +60,9 @@ Patch24:        multiconcat-mutator-not-seen-in-lex.patch
 Patch25:        perl-132683-don-t-try-to-convert-PL_sv_placeholder-i.patch
 # PATCH-FIX-UPSTREAM-- RT#132655, upstream 5.29.2
 Patch26:        perl-132655-nul-terminate-result-of-unpack-u-of-inva.patch
-# PATCH-FIX-OPENEULER--rh#960048
-Patch27:       perl-5.16.3-Link-XS-modules-to-libperl.so-with-EU-CBuilder-on-Li.patch
-# PATCH-FIX-OPENEULER--rh#960048
-Patch28:       perl-5.16.3-Link-XS-modules-to-libperl.so-with-EU-MM-on-Linux.patch
+# PATCH-FIX-OPENEULER
+# In 2020, a year of 70 starts to mean 2070. So cpan/Time-Local/t/Local.t test
+Patch27:        Fix-time-local-tests-in-2020.patch
 
 Patch6000:      CVE-2018-18312-1.patch
 Patch6001:      CVE-2018-18312-2.patch
@@ -93,7 +72,7 @@ BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-de
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
 
 Requires:       perl(:MODULE_COMPAT_5.28.0) perl-version perl-threads perl-threads-shared perl-parent
-Requires:       perl-devel = %{epoch}:%{version}-%{release}
+Requires:       perl-devel = %{epoch}:%{version}-%{release} %{_vendor}-rpm-config
 Requires:       perl-Unicode-Collate perl-Unicode-Normalize perl-Time-Local perl-Time-HiRes
 Requires:       perl-Thread-Queue perl-Text-Tabs+Wrap perl-Test-Simple perl-Test-Harness perl-devel
 Requires:       perl-Text-Balanced perl-Text-ParseWords perl-Term-ANSIColor perl-Term-Cap
@@ -146,8 +125,6 @@ This package contains the development files and test files for %{name}.
 
 %prep
 %autosetup -n %{name}-%{version} -p1
-
-cp -a %{SOURCE1} .
 
 # Configure Compress::Zlib to use system zlib
 sed -i 's|BUILD_ZLIB      = True|BUILD_ZLIB      = False|
@@ -211,10 +188,6 @@ done
 mkdir -p %{buildroot}%{perl_vendor_libdir}/auto
 mkdir -p %{buildroot}%{perl_vendor_datadir}
 
-# perl RPM macros
-mkdir -p %{buildroot}%{_rpmmacrodir}
-install -p -m 644 %{SOURCE2} %{buildroot}%{_rpmmacrodir}
-
 # This is a work-around for rpmbuild bug #878863.
 find %{buildroot} -type f -name '*.bs' -empty -delete
 chmod -R u+w %{buildroot}/*
@@ -239,11 +212,6 @@ done
 %{perl_new} -MConfig -i -pn \
     -e 's"\A#!(?:perl|\./perl|/usr/bin/perl|/usr/bin/env perl)\b"$Config{startperl}"' \
     $(find %{buildroot}%{_libexecdir}/perl5-tests/perl-tests -type f)
-
-mkdir -p %{buildroot}%{_datadir}/systemtap/tapset
-
-sed -e "s|LIBRARY_PATH|%{_libdir}/%{soname}|" %{SOURCE3} \
-  > %{buildroot}%{_datadir}/systemtap/tapset/libperl%{version}-64.stp
 
 %check
 %{perl_new} -I/lib regen/lib_cleanup.pl
@@ -448,15 +416,11 @@ make test_harness
 %dir %{perl_datadir}
 %{perl_datadir}/*
 %{_libdir}/libperl.so.*
-%{_rpmmacrodir}/macros.perl
 
 %files devel
 %{_bindir}/{h2xs,perlivp}
 %{perl_libdir}/CORE/*.h
 %{_libdir}/libperl.so
-%dir %{_datadir}/systemtap
-%dir %{_datadir}/systemtap/tapset
-%{_datadir}/systemtap/tapset/libperl%{version}-64.stp
 %dir %{perl_libdir}/Devel
 %{perl_libdir}/Devel/Peek.pm
 %dir %{perl_libdir}/auto/Devel
@@ -505,6 +469,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Fri Jan 2 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-430
+- Type:NA
+- ID:NA
+- SUG:NA
+- DESC:delete unneeded patch
+
 * Mon Dec 23 2019 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-429
 - Type:NA
 - ID:NA
