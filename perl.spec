@@ -18,10 +18,11 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and HSRL and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.0
-Release:        430
+Release:        431
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
+Source1:        macros.perl
 
 # PATCH-FEATURE-OPENEULER
 Patch1:         change-lib-to-lib64.patch
@@ -187,6 +188,10 @@ done
 
 mkdir -p %{buildroot}%{perl_vendor_libdir}/auto
 mkdir -p %{buildroot}%{perl_vendor_datadir}
+
+# perl RPM macros
+mkdir -p %{buildroot}%{_rpmmacrodir}
+install -p -m 644 %{SOURCE1} %{buildroot}%{_rpmmacrodir}
 
 # This is a work-around for rpmbuild bug #878863.
 find %{buildroot} -type f -name '*.bs' -empty -delete
@@ -416,6 +421,7 @@ make test_harness
 %dir %{perl_datadir}
 %{perl_datadir}/*
 %{_libdir}/libperl.so.*
+%{_rpmmacrodir}/macros.perl
 
 %files devel
 %{_bindir}/{h2xs,perlivp}
@@ -469,6 +475,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Sat Jan 11 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-431
+- Type:NA
+- ID:NA
+- SUG:NA
+- DESC:add macros that used for perl
+
 * Fri Jan 2 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-430
 - Type:NA
 - ID:NA
