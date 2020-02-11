@@ -12,13 +12,13 @@
 %global __requires_exclude_from ^%{_libexecdir}/perl5-tests/.*$
 
 #provides module without verion, no need to provide
-%global __provides_exclude perl\\((charnames|DynaLoader|DB)\\)$
+%global __provides_exclude %{?__provides_exclude:%__provides_exclude|}^perl\\((charnames|DynaLoader|DB)\\)$
 
 Name:           perl
-License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and HSRL and MIT and UCD and Public Domain and BSD
+License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.0
-Release:        432
+Release:        433
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -71,8 +71,9 @@ Patch6002:      CVE-2018-18312-3.patch
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
 
+Requires:       perl-libs = %{epoch}:%{version}-%{release}
 Requires:       perl(:MODULE_COMPAT_5.28.0) perl-version perl-threads perl-threads-shared perl-parent
-Requires:       perl-devel = %{epoch}:%{version}-%{release} %{_vendor}-rpm-config
+Requires:       perl-devel = %{epoch}:%{version}-%{release} system-rpm-config
 Requires:       perl-Unicode-Collate perl-Unicode-Normalize perl-Time-Local perl-Time-HiRes
 Requires:       perl-Thread-Queue perl-Text-Tabs+Wrap perl-Test-Simple perl-Test-Harness perl-devel
 Requires:       perl-Text-Balanced perl-Text-ParseWords perl-Term-ANSIColor perl-Term-Cap
@@ -90,14 +91,12 @@ Requires:       perl-Pod-Checker perl-Pod-Escapes perl-Pod-Parser perl-Pod-Perld
 Requires:       perl-Module-CoreList perl-Module-CoreList-tools perl-Module-Load perl-Module-Load-Conditional
 Requires:       perl-Module-Metadata perl-Sys-Syslog perl-PerlIO-via-QuotedPrint perl-Perl-OSType
 
-Provides:       perl-libs%{?_isa} = %{epoch}:%{version}-%{release}
-Provides:       perl-Attribute-Handlers perl-interpreter perl(bytes_heavy.pl) perl(dumpvar.pl) perl(perl5db.pl) perl(:VERSION) = 5.28.0
-Provides:       perl(:MODULE_COMPAT_5.28.0) perl(:WITH_64BIT) perl(:WITH_ITHREADS) perl(:WITH_THREADS) perl(:WITH_LARGEFILES)
-Provides:       perl-Errno perl(:WITH_PERLIO) perl(unicore::Name) perl(utf8_heavy.pl) perl-libs perl-macros perl-Memoize
+Provides:       perl-Attribute-Handlers perl-interpreter perl(bytes_heavy.pl) perl(dumpvar.pl) perl(perl5db.pl)
 Provides:       perl-ExtUtils-Embed perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex
 Provides:       perl-Module-Loaded perl-Net-Ping perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
+Provides:       perl-Errno perl-macros perl-Memoize
 
-Obsoletes:      perl-Attribute-Handlers perl-interpreter perl-libs perl-macros perl-Errno perl-ExtUtils-Embed perl-Net-Ping
+Obsoletes:      perl-Attribute-Handlers perl-interpreter perl-macros perl-Errno perl-ExtUtils-Embed perl-Net-Ping
 Obsoletes:      perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex perl-Memoize perl-Module-Loaded
 Obsoletes:      perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
 
@@ -106,6 +105,18 @@ Obsoletes:      perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-lib
 Perl 5 is a highly capable, feature-rich programming language with over 30 years of development.
 Perl 5 runs on over 100 platforms from portables to mainframes and is suitable for both rapid
 prototyping and large scale development projects.
+
+%package libs
+Summary:        The libraries for the perl
+License:        (GPL+ or Artistic) and HSRL and MIT and UCD
+Provides:       perl(:MODULE_COMPAT_5.28.0) perl(:VERSION) = 5.28.0
+Provides:       perl(:WITH_64BIT) perl(:WITH_ITHREADS) perl(:WITH_THREADS)
+Provides:       perl(:WITH_LARGEFILES) perl(:WITH_PERLIO) perl(unicore::Name)
+Provides:       perl(utf8_heavy.pl)
+Requires:       perl(Carp) perl(Exporter) perl(XSLoader)
+
+%description libs
+This package is the shared library for perl.
 
 %package devel
 Summary:        Development files for %{name}
@@ -408,6 +419,21 @@ make test_harness
 %exclude %{perl_datadir}/{version.pm,version.pod}
 %exclude %{perl_datadir}/version/
 
+#libs
+%exclude %dir %{perl_libdir}
+%exclude %dir %{perl_libdir}/auto
+%exclude %{perl_libdir}/auto/re
+%exclude %dir %{perl_libdir}/CORE
+%exclude %{perl_libdir}/CORE/libperl.so
+%exclude %{perl_libdir}/re.pm
+%exclude %{_libdir}/libperl.so.*
+%exclude %dir %{perl_vendor_libdir}
+%exclude %dir %{perl_vendor_libdir}/auto
+%exclude %dir %{perl_datadir}
+%exclude %{perl_datadir}/{integer.pm,strict.pm,unicore,utf8.pm}
+%exclude %{perl_datadir}/{utf8_heavy.pl,warnings.pm,XSLoader.pm}
+%exclude %dir %{perl_vendor_datadir}
+
 %license Artistic Copying
 %doc AUTHORS
 %{_bindir}/*
@@ -415,7 +441,23 @@ make test_harness
 %{perl_libdir}/*
 %dir %{perl_datadir}
 %{perl_datadir}/*
+
+%files libs
+%license Artistic Copying
+%doc AUTHORS README Changes
+%dir %{perl_libdir}
+%dir %{perl_libdir}/auto
+%{perl_libdir}/auto/re
+%dir %{perl_libdir}/CORE
+%{perl_libdir}/CORE/libperl.so
+%{perl_libdir}/re.pm
 %{_libdir}/libperl.so.*
+%dir %{perl_vendor_libdir}
+%dir %{perl_vendor_libdir}/auto
+%dir %{perl_datadir}
+%{perl_datadir}/{integer.pm,strict.pm,unicore,utf8.pm}
+%{perl_datadir}/{utf8_heavy.pl,warnings.pm,XSLoader.pm}
+%dir %{perl_vendor_datadir}
 
 %files devel
 %{_bindir}/{h2xs,perlivp}
@@ -469,6 +511,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Tue Feb 11 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-433
+- Type:NA
+- ID:NA
+- SUG:NA
+- DESC:add subpackage perl-libs
+
 * Mon Jan 13 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-432
 - Type:NA
 - ID:NA
