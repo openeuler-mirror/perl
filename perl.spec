@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.0
-Release:        433
+Release:        434
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -69,7 +69,7 @@ Patch6001:      CVE-2018-18312-2.patch
 Patch6002:      CVE-2018-18312-3.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
-BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
+BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
 
 Requires:       perl-libs = %{epoch}:%{version}-%{release}
 Requires:       perl(:MODULE_COMPAT_5.28.0) perl-version perl-threads perl-threads-shared perl-parent
@@ -511,6 +511,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Sat Mar 21 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-434
+- Type:NA
+- ID:NA
+- SUG:NA
+- DESC:add build requires of gdb
+
 * Tue Feb 11 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-433
 - Type:NA
 - ID:NA
