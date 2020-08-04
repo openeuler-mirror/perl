@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.0
-Release:        434
+Release:        435
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -67,6 +67,9 @@ Patch27:        Fix-time-local-tests-in-2020.patch
 Patch6000:      CVE-2018-18312-1.patch
 Patch6001:      CVE-2018-18312-2.patch
 Patch6002:      CVE-2018-18312-3.patch
+Patch6003:	backport-CVE-2020-10543.patch 
+Patch6004:	backport-CVE-2020-10878.patch
+Patch6005:	backport-CVE-2020-12723.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
@@ -511,6 +514,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Mon Aug 3 2020 wenzhanli<wenzhanli2@huawei.com> - 4:5.28.0-435
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:CVE-2020-10543 CVE-2020-10878 CVE-12723
+
 * Sat Mar 21 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-434
 - Type:NA
 - ID:NA
