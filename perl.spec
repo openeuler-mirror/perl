@@ -14,11 +14,15 @@
 #provides module without verion, no need to provide
 %global __provides_exclude %{?__provides_exclude:%__provides_exclude|}^perl\\((charnames|DynaLoader|DB)\\)$
 
+%global perl_version 5.32.0
+
+%global perl_compat perl(:MODULE_COMPAT_5.32.0)
+
 Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
-Version:        5.28.0
-Release:        434
+Version:        %{perl_version}
+Release:        1
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -26,53 +30,17 @@ Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
 # PATCH-FEATURE-OPENEULER
 Patch1:         change-lib-to-lib64.patch
 # PATCH-FEATURE-OPENEULER
-Patch3:         disable-rpath-by-default.patch
+Patch2:         disable-rpath-by-default.patch
 # PATCH-FIX-OPENEULER
-Patch5:         create-libperl-soname.patch
+Patch3:         create-libperl-soname.patch
 # PATCH-FIX-OPENEULER--rh#1107543, RT#61912
-Patch8:         perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
-# PATCH-FIX-OPENEULER--RT#133295
-Patch12:        delete-ext-GDBM_File-t-fatal.t.patch
-# PATCH-FIX-UPSTREAM--RT#133204, upstream 5.29.0
-Patch13:        Perl_my_setenv-handle-integer-wrap.patch
-# PATCH-FIX-UPSTREAM-- upstream 5.29.0
-Patch14:        regexec.c-Call-macro-with-correct-args.patch
-# PATCH-FIX-UPSTREAM-- upstream 5.29.0
-Patch15:        perl.h-Add-parens-around-macro-arguments.patch
-# PATCH-FIX-UPSTREAM--RT#133368, upstream 5.29.0
-Patch16:        treat-when-index-1-as-a-boolean-expression.patch
-# PATCH-FIX-UPSTREAM-- upstream 5.29.0
-Patch17:        locale.c-Fix-conditional-compilation.patch
-# PATCH-FIX-UPSTREAM--RT#133314, upstream 5.29.1
-Patch18:        perl-133314-test-for-handle-leaks-from-in-place-edit.patch
-Patch19:        perl-133314-always-close-the-directory-handle-on-cle.patch
-# PATCH-FIX-UPSTREAM--Fix buffer overrun, upstream 5.29.1
-Patch20:        utf8.c-Make-safer-a-deprecated-function.patch
-# PATCH-FIX-UPSTREAM--Fix time race, upstream 5.29.1
-Patch21:        Time-HiRes-t-itimer.t-avoid-race-condition.patch
-# PATCH-FIX-UPSTREAM-- upstream 5.29.1
-Patch22:        Fix-script-run-bug-1-followed-by-Thai-digit.patch
-# PATCH-FIX-UPSTREAM-- upstream 5.29.1
-Patch23:        Update-Time-Piece-to-CPAN-version-1.33.patch
-# PATCH-FIX-UPSTREAM-- RT#133441, upstream 5.29.2
-Patch24:        multiconcat-mutator-not-seen-in-lex.patch
-# PATCH-FIX-UPSTREAM-- RT#132683, upstream 5.29.2
-Patch25:        perl-132683-don-t-try-to-convert-PL_sv_placeholder-i.patch
-# PATCH-FIX-UPSTREAM-- RT#132655, upstream 5.29.2
-Patch26:        perl-132655-nul-terminate-result-of-unpack-u-of-inva.patch
-# PATCH-FIX-OPENEULER
-# In 2020, a year of 70 starts to mean 2070. So cpan/Time-Local/t/Local.t test
-Patch27:        Fix-time-local-tests-in-2020.patch
-
-Patch6000:      CVE-2018-18312-1.patch
-Patch6001:      CVE-2018-18312-2.patch
-Patch6002:      CVE-2018-18312-3.patch
+Patch4:         perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
 
 Requires:       perl-libs = %{epoch}:%{version}-%{release}
-Requires:       perl(:MODULE_COMPAT_5.28.0) perl-version perl-threads perl-threads-shared perl-parent
+Requires:       perl-version perl-threads perl-threads-shared perl-parent
 Requires:       perl-devel = %{epoch}:%{version}-%{release} system-rpm-config
 Requires:       perl-Unicode-Collate perl-Unicode-Normalize perl-Time-Local perl-Time-HiRes
 Requires:       perl-Thread-Queue perl-Text-Tabs+Wrap perl-Test-Simple perl-Test-Harness perl-devel
@@ -94,9 +62,9 @@ Requires:       perl-Module-Metadata perl-Sys-Syslog perl-PerlIO-via-QuotedPrint
 Provides:       perl-Attribute-Handlers perl-interpreter perl(bytes_heavy.pl) perl(dumpvar.pl) perl(perl5db.pl)
 Provides:       perl-ExtUtils-Embed perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex
 Provides:       perl-Module-Loaded perl-Net-Ping perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
-Provides:       perl-Errno perl-macros perl-Memoize
+Provides:       perl-Errno perl-Memoize
 
-Obsoletes:      perl-Attribute-Handlers perl-interpreter perl-macros perl-Errno perl-ExtUtils-Embed perl-Net-Ping
+Obsoletes:      perl-Attribute-Handlers perl-interpreter perl-Errno perl-ExtUtils-Embed perl-Net-Ping
 Obsoletes:      perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex perl-Memoize perl-Module-Loaded
 Obsoletes:      perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
 
@@ -110,6 +78,8 @@ prototyping and large scale development projects.
 Summary:        The libraries for the perl
 License:        (GPL+ or Artistic) and HSRL and MIT and UCD
 Provides:       perl(:MODULE_COMPAT_5.28.0) perl(:VERSION) = 5.28.0
+Provides:       %perl_compat
+Provides:       perl(:VERSION) = %{perl_version} libperl.so.5.28()(64bit)
 Provides:       perl(:WITH_64BIT) perl(:WITH_ITHREADS) perl(:WITH_THREADS)
 Provides:       perl(:WITH_LARGEFILES) perl(:WITH_PERLIO) perl(unicore::Name)
 Provides:       perl(utf8_heavy.pl)
@@ -135,7 +105,9 @@ This package contains the development files and test files for %{name}.
 %package_help
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%autosetup -n %{name}-%{perl_version} -p1
+%global perl_abi   %(echo '%{perl_version}' | sed 's/^\\([^.]*\\.[^.]*\\).*/\\1/') 
+echo %{perl_abi}
 
 # Configure Compress::Zlib to use system zlib
 sed -i 's|BUILD_ZLIB      = True|BUILD_ZLIB      = False|
@@ -154,8 +126,8 @@ sed -i '/\(bzip2\|zlib\)-src/d' MANIFEST
         -DDEBUGGING=-g -Dversion=%{version} -Dmyhostname=localhost \
         -Dperladmin=root@localhost -Dcc='%{__cc}' -Dprefix=%{_prefix} \
         -Dvendorprefix=%{_prefix} -Dsiteprefix=%{_prefix}/local \
-        -Dsitelib="%{_prefix}/local/share/perl5" -Dprivlib="%{perl_datadir}" \
-        -Dsitearch="%{_prefix}/local/%{_lib}/perl5" \
+        -Dsitelib="%{_prefix}/local/share/perl5/%{perl_abi}" -Dprivlib="%{perl_datadir}" \
+        -Dsitearch="%{_prefix}/local/%{_lib}/perl5/%{perl_abi}" \
         -Dvendorlib="%{perl_vendor_datadir}" -Darchlib="%{perl_libdir}" \
         -Dvendorarch="%{perl_vendor_libdir}" -Darchname="%{_arch}-%{_os}-thread-multi" \
         -Dlibpth="/usr/local/lib64 /lib64 %{_prefix}/lib64" \
@@ -173,7 +145,7 @@ BZIP2_LIB=%{_libdir}
 export BUILD_BZIP2 BZIP2_LIB
 
 # for new perl can be executed from make.
-%global soname libperl.so.%(echo '%{version}' | sed 's/^\\([^.]*\\.[^.]*\\).*/\\1/')
+%global soname libperl.so.%{perl_abi}
 test -L %{soname} || ln -s libperl.so %{soname}
 
 make %{?_smp_mflags}
@@ -191,7 +163,7 @@ rm -f "%{buildroot}%{perl_libdir}/CORE/%{soname}"
 
 install -p -m 755 utils/pl2pm %{buildroot}%{_bindir}/pl2pm
 
-for h_file in asm/termios.h syscall.h syslimits.h syslog.h sys/ioctl.h sys/socket.h sys/time.h wait.h
+for h_file in sys/ioctl.h sys/syscall.h syscall.h
 do
     %{perl_new} %{buildroot}%{_bindir}/h2ph -a -d %{buildroot}%{perl_libdir} $h_file || true
 done
@@ -221,7 +193,7 @@ done
 
 # fix shell bangs in tests.
 %{perl_new} -MConfig -i -pn \
-    -e 's"\A#!(?:perl|\./perl|/usr/bin/perl|/usr/bin/env perl)\b"$Config{startperl}"' \
+    -e 's"\A#!(?:perl|\./perl|/perl|/usr/bin/perl|/usr/bin/env perl)\b"$Config{startperl}"' \
     $(find %{buildroot}%{_libexecdir}/perl5-tests/perl-tests -type f)
 
 %check
@@ -237,7 +209,7 @@ make test_harness
 %files
 # there are many files do not need to be packaged
 # in this main package
-%exclude %{_bindir}/{h2xs,perlivp,corelist,prove,cpan,enc2xs}
+%exclude %{_bindir}/{h2xs,perlivp,corelist,prove,cpan,enc2xs,streamzip}
 %exclude %{_bindir}/{ptar,ptargrep,ptardiff,shasum,json_pp}
 %exclude %{_bindir}/{encguess,piconv,instmodsh,xsubpp,pod2text}
 %exclude %{_bindir}/{podchecker,podselect,perldoc,pod2usage,pod2man}
@@ -475,7 +447,7 @@ make test_harness
 # there are many man docs don not need to be packaged
 %exclude %{_mandir}/man1/{ptar.1*,ptardiff.1*,ptargrep.1*,cpan.1*,shasum.1*,perlfilter.*}
 %exclude %{_mandir}/man1/{encguess.1*,piconv.1*,enc2xs.1*,instmodsh.1*,xsubpp*,podchecker.*}
-%exclude %{_mandir}/man1/{zipdetails.*,json_pp.1*,corelist*,perlfaq*,perlglossary.*}
+%exclude %{_mandir}/man1/{zipdetails.*,json_pp.1*,corelist*,perlfaq*,perlglossary.*,streamzip.*}
 %exclude %{_mandir}/man1/{podselect.1*,perldoc.1*,pod2usage.*,pod2man.1*,pod2text.1*}
 %exclude %{_mandir}/man1/{perlpodstyle.1*,prove.1*}
 %exclude %{_mandir}/man3/{Archive::Tar*,autodie*,Fatal.3*,B::Debug.3*,Pod::Find.*}
@@ -511,6 +483,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Thu Aug 13 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.32.0-1
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:bump version to 5.32.0
+
 * Sat Mar 21 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.0-434
 - Type:NA
 - ID:NA
