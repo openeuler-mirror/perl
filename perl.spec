@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        1
+Release:        2
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -126,8 +126,8 @@ sed -i '/\(bzip2\|zlib\)-src/d' MANIFEST
         -DDEBUGGING=-g -Dversion=%{version} -Dmyhostname=localhost \
         -Dperladmin=root@localhost -Dcc='%{__cc}' -Dprefix=%{_prefix} \
         -Dvendorprefix=%{_prefix} -Dsiteprefix=%{_prefix}/local \
-        -Dsitelib="%{_prefix}/local/share/perl5/%{perl_abi}" -Dprivlib="%{perl_datadir}" \
-        -Dsitearch="%{_prefix}/local/%{_lib}/perl5/%{perl_abi}" \
+        -Dsitelib="%{_prefix}/local/share/perl5" -Dprivlib="%{perl_datadir}" \
+        -Dsitearch="%{_prefix}/local/%{_lib}/perl5" \
         -Dvendorlib="%{perl_vendor_datadir}" -Darchlib="%{perl_libdir}" \
         -Dvendorarch="%{perl_vendor_libdir}" -Darchname="%{_arch}-%{_os}-thread-multi" \
         -Dlibpth="/usr/local/lib64 /lib64 %{_prefix}/lib64" \
@@ -483,6 +483,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Mon Aug 17 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.32.0-2
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:delete the temporary unneeded behavior for upgrade of perl
+
 * Thu Aug 13 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.32.0-1
 - Type:enhancement
 - ID:NA
