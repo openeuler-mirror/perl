@@ -17,8 +17,8 @@
 Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
-Version:        5.28.0
-Release:        435
+Version:        5.28.3
+Release:        1
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -33,43 +33,27 @@ Patch5:         create-libperl-soname.patch
 Patch8:         perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
 # PATCH-FIX-OPENEULER--RT#133295
 Patch12:        delete-ext-GDBM_File-t-fatal.t.patch
-# PATCH-FIX-UPSTREAM--RT#133204, upstream 5.29.0
-Patch13:        Perl_my_setenv-handle-integer-wrap.patch
 # PATCH-FIX-UPSTREAM-- upstream 5.29.0
 Patch14:        regexec.c-Call-macro-with-correct-args.patch
 # PATCH-FIX-UPSTREAM-- upstream 5.29.0
 Patch15:        perl.h-Add-parens-around-macro-arguments.patch
-# PATCH-FIX-UPSTREAM--RT#133368, upstream 5.29.0
-Patch16:        treat-when-index-1-as-a-boolean-expression.patch
 # PATCH-FIX-UPSTREAM-- upstream 5.29.0
 Patch17:        locale.c-Fix-conditional-compilation.patch
 # PATCH-FIX-UPSTREAM--RT#133314, upstream 5.29.1
 Patch18:        perl-133314-test-for-handle-leaks-from-in-place-edit.patch
-Patch19:        perl-133314-always-close-the-directory-handle-on-cle.patch
 # PATCH-FIX-UPSTREAM--Fix buffer overrun, upstream 5.29.1
 Patch20:        utf8.c-Make-safer-a-deprecated-function.patch
 # PATCH-FIX-UPSTREAM--Fix time race, upstream 5.29.1
 Patch21:        Time-HiRes-t-itimer.t-avoid-race-condition.patch
-# PATCH-FIX-UPSTREAM-- upstream 5.29.1
-Patch22:        Fix-script-run-bug-1-followed-by-Thai-digit.patch
 # PATCH-FIX-UPSTREAM-- upstream 5.29.1
 Patch23:        Update-Time-Piece-to-CPAN-version-1.33.patch
 # PATCH-FIX-UPSTREAM-- RT#133441, upstream 5.29.2
 Patch24:        multiconcat-mutator-not-seen-in-lex.patch
 # PATCH-FIX-UPSTREAM-- RT#132683, upstream 5.29.2
 Patch25:        perl-132683-don-t-try-to-convert-PL_sv_placeholder-i.patch
-# PATCH-FIX-UPSTREAM-- RT#132655, upstream 5.29.2
-Patch26:        perl-132655-nul-terminate-result-of-unpack-u-of-inva.patch
 # PATCH-FIX-OPENEULER
 # In 2020, a year of 70 starts to mean 2070. So cpan/Time-Local/t/Local.t test
 Patch27:        Fix-time-local-tests-in-2020.patch
-
-Patch6000:      CVE-2018-18312-1.patch
-Patch6001:      CVE-2018-18312-2.patch
-Patch6002:      CVE-2018-18312-3.patch
-Patch6003:	backport-CVE-2020-10543.patch 
-Patch6004:	backport-CVE-2020-10878.patch
-Patch6005:	backport-CVE-2020-12723.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
@@ -514,6 +498,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Thu Aug 13 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.28.3-1
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:update version to 5.28.3
+
 * Mon Aug 3 2020 wenzhanli<wenzhanli2@huawei.com> - 4:5.28.0-435
 - Type:bugfix
 - ID:NA
