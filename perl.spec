@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.3
-Release:        2
+Release:        3
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -96,7 +96,8 @@ prototyping and large scale development projects.
 %package libs
 Summary:        The libraries for the perl
 License:        (GPL+ or Artistic) and HSRL and MIT and UCD
-Provides:       perl(:MODULE_COMPAT_5.28.0) perl(:VERSION) = 5.28.0
+Provides:       perl(:MODULE_COMPAT_5.28.0) perl(:VERSION) = 5.28.3
+Provides:       perl(:MODULE_COMPAT_5.28.3)
 Provides:       perl(:WITH_64BIT) perl(:WITH_ITHREADS) perl(:WITH_THREADS)
 Provides:       perl(:WITH_LARGEFILES) perl(:WITH_PERLIO) perl(unicore::Name)
 Provides:       perl(utf8_heavy.pl)
@@ -498,6 +499,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Fri Oct 9 2020 shenyangyang <shenyangyang4@huawei.com> - 4:5.28.3-3
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:add provides MODULE_COMPAT 5.28.3
+
 * Wed Sep 30 2020 Shen Yangyang <shenyangyang4@huawei.com> - 4:5.28.3-2
 - Type:enhancement
 - ID:NA
