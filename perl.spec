@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.3
-Release:        2
+Release:        3
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -81,9 +81,9 @@ Requires:       perl-Module-Metadata perl-Sys-Syslog perl-PerlIO-via-QuotedPrint
 Provides:       perl-Attribute-Handlers perl-interpreter perl(bytes_heavy.pl) perl(dumpvar.pl) perl(perl5db.pl)
 Provides:       perl-ExtUtils-Embed perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex
 Provides:       perl-Module-Loaded perl-Net-Ping perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
-Provides:       perl-Errno perl-macros perl-Memoize
+Provides:       perl-Errno perl-Memoize
 
-Obsoletes:      perl-Attribute-Handlers perl-interpreter perl-macros perl-Errno perl-ExtUtils-Embed perl-Net-Ping
+Obsoletes:      perl-Attribute-Handlers perl-interpreter perl-Errno perl-ExtUtils-Embed perl-Net-Ping
 Obsoletes:      perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex perl-Memoize perl-Module-Loaded
 Obsoletes:      perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
 
@@ -499,6 +499,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Fri Oct 9 2020 shenyangyang <shenyangyang4@huawei.com> - 4:5.28.3-3
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:delete provide of perl-macros that actually provided by openEuler-rpm-config
+
 * Mon Sep 21 2020 tianwei <tianwei12@huawei.com> - 4:5.28.3-2
 - Type:enhancement
 - ID:NA
