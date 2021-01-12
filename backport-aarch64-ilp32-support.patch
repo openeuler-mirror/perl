@@ -1,0 +1,40 @@
+From 55a0aab68d5ce90ce8bb7442ba61639c49e50c1d Mon Sep 17 00:00:00 2001
+From: root <root@localhost.localdomain>
+Date: Mon, 21 Sep 2020 09:45:33 +0800
+Subject: [PATCH] aarch64 ilp32 support
+https://build.opensuse.org/package/view_file/devel:ARM:Factory:Contrib:ILP32/perl/aarch64-ilp32.patch?expand=1
+---
+ hints/linux.sh | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/hints/linux.sh b/hints/linux.sh
+index 3f38ea0..19dd165 100644
+--- a/hints/linux.sh
++++ b/hints/linux.sh
+@@ -298,6 +298,23 @@ sparc*)
+ 	;;
+ esac
+ 
++case $archname in
++	arch64-linux)
++	cat >try.c <<'EOM'
++#include <stdlib.h>
++main() {
++int ilp32 = 0;
++#ifdef __ILP32__
++ilp32 = 1;
++#endif
++exit(!ilp32);
++EOM
++if ${cc:-gcc} $ccflags $ldflags try.c >/dev/null 2>&1 && $run ./a.out; then
++   archname=aarch64-ilp32-linux
++fi
++   ;;
++esac
++
+ # SuSE8.2 has /usr/lib/libndbm* which are ld scripts rather than
+ # true libraries. The scripts cause binding against static
+ # version of -lgdbm which is a bad idea. So if we have 'nm'
+-- 
+2.23.0
+
