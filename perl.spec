@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.3
-Release:        4
+Release:        5
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -54,15 +54,21 @@ Patch25:        perl-132683-don-t-try-to-convert-PL_sv_placeholder-i.patch
 # PATCH-FIX-OPENEULER
 # In 2020, a year of 70 starts to mean 2070. So cpan/Time-Local/t/Local.t test
 Patch27:        Fix-time-local-tests-in-2020.patch
+Patch28:        backport-perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
+
+
+%ifarch aarch64_ilp32
+Patch29:      backport-aarch64-ilp32-support.patch
+%endif
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
 
 Requires:       perl-libs = %{epoch}:%{version}-%{release}
 Requires:       perl(:MODULE_COMPAT_5.28.0) perl-version perl-threads perl-threads-shared perl-parent
-Requires:       perl-devel = %{epoch}:%{version}-%{release} system-rpm-config
+Requires:       system-rpm-config
 Requires:       perl-Unicode-Collate perl-Unicode-Normalize perl-Time-Local perl-Time-HiRes
-Requires:       perl-Thread-Queue perl-Text-Tabs+Wrap perl-Test-Simple perl-Test-Harness perl-devel
+Requires:       perl-Thread-Queue perl-Text-Tabs+Wrap perl-Test-Simple perl-Test-Harness
 Requires:       perl-Text-Balanced perl-Text-ParseWords perl-Term-ANSIColor perl-Term-Cap
 Requires:       perl-Socket perl-podlators perl-Scalar-List-Utils perl-perlfaq perl-constant
 Requires:       perl-Digest-SHA perl-Digest perl-Digest-MD5 perl-Devel-PPPort perl-Carp perl-Env
@@ -140,13 +146,19 @@ sed -i '/\(bzip2\|zlib\)-src/d' MANIFEST
         -Dldflags="$RPM_LD_FLAGS" -Dccdlflags="-Wl,--enable-new-dtags $RPM_LD_FLAGS" \
         -Dlddlflags="-shared $RPM_LD_FLAGS" -Dshrpdir="%{_libdir}" \
         -DDEBUGGING=-g -Dversion=%{version} -Dmyhostname=localhost \
-        -Dperladmin=root@localhost -Dcc='%{__cc}' -Dprefix=%{_prefix} \
+        -Dperladmin=root@localhost -Dcc=gcc -Dprefix=%{_prefix} \
         -Dvendorprefix=%{_prefix} -Dsiteprefix=%{_prefix}/local \
         -Dsitelib="%{_prefix}/local/share/perl5" -Dprivlib="%{perl_datadir}" \
         -Dsitearch="%{_prefix}/local/%{_lib}/perl5" \
         -Dvendorlib="%{perl_vendor_datadir}" -Darchlib="%{perl_libdir}" \
         -Dvendorarch="%{perl_vendor_libdir}" -Darchname="%{_arch}-%{_os}-thread-multi" \
+        %ifarch i686
+        -Dlibpth="/usr/local/lib /lib %{_prefix}/lib" \
+        %elifarch aarch64_ilp32
+        -Dlibpth="/usr/local/libilp32 /libilp32 %{_prefix}/libilp32" \
+        %else
         -Dlibpth="/usr/local/lib64 /lib64 %{_prefix}/lib64" \
+        %endif
         -Duseshrplib -Dusethreads -Duseithreads -Ui_ndbm -Di_gdbm \
         -Dusedtrace='/usr/bin/dtrace' -Ubincompat5005 -Dusesitecustomize \
         -Duselargefiles -Dd_semctl_semun -Di_db -Duse64bitint \
@@ -155,6 +167,9 @@ sed -i '/\(bzip2\|zlib\)-src/d' MANIFEST
         -Dd_gethostent_r_proto -Ud_endhostent_r_proto -Ud_sethostent_r_proto \
         -Ud_endprotoent_r_proto -Ud_setprotoent_r_proto \
         -Ud_endservent_r_proto -Ud_setservent_r_proto \
+        %ifarch aarch64_ilp32
+        -Duse64bitint \
+        %endif
 
 BUILD_BZIP2=0
 BZIP2_LIB=%{_libdir}
@@ -499,6 +514,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jan 12 2021 tianwei <tianwei12@huawei.com> - 4:5.28.3-5
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:support for i686 and remove perl-devel from perl
+
 * Fri Jan 8 2021 tianwei <tianwei12@huawei.com> - 4:5.28.3-4
 - Type:enhancement
 - ID:NA
