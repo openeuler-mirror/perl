@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.3
-Release:        3
+Release:        4
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -54,6 +54,7 @@ Patch25:        perl-132683-don-t-try-to-convert-PL_sv_placeholder-i.patch
 # PATCH-FIX-OPENEULER
 # In 2020, a year of 70 starts to mean 2070. So cpan/Time-Local/t/Local.t test
 Patch27:        Fix-time-local-tests-in-2020.patch
+Patch28:	backport-perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
@@ -499,6 +500,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Web Mar 03 2021 wuchaochao<wuchaochao4@huawei.com> - 4:5.28.3-4
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:fix backport-perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
+
 * Fri Oct 9 2020 shenyangyang <shenyangyang4@huawei.com> - 4:5.28.3-3
 - Type:enhancement
 - ID:NA
