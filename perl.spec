@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        2
+Release:        3
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -198,11 +198,11 @@ done
 
 %check
 %{perl_new} -I/lib regen/lib_cleanup.pl
-cd t
+pushd t
 %{perl_new} -I../lib porting/customized.t --regen
-cd -
+popd
 TEST_JOBS=$(echo %{?_smp_mflags} | sed 's/.*-j\([0-9][0-9]*\).*/\1/') \
-make test_harness
+LC_ALL=C make test_harness
 
 %ldconfig_scriptlets
 
@@ -483,6 +483,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Thu Mar 4 2021 tianwei <tianwei12@huawei.com> - 4:5.32.0-3
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:perl build error
+
 * Mon Aug 17 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.32.0-2
 - Type:enhancement
 - ID:NA
