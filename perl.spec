@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        2
+Release:        3
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -35,6 +35,7 @@ Patch2:         disable-rpath-by-default.patch
 Patch3:         create-libperl-soname.patch
 # PATCH-FIX-OPENEULER--rh#1107543, RT#61912
 Patch4:         perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
+Patch5:		backport-perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
@@ -483,6 +484,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Web Mar 03 2021 wuchaochao<wuchaochao4@huawei.com> - 4:5.32.0-3
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:fix backport-perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
+
 * Mon Aug 17 2020 openEuler Buildteam <buildteam@openeuler.org> - 4:5.32.0-2
 - Type:enhancement
 - ID:NA
