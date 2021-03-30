@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        3
+Release:        4
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -484,6 +484,13 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Thu Mar 30 2021 shenyangyang<shenyangyang4@huawei.com> - 4:5.32.0-4
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:Rebuild for openEuler-rpm-config moving /usr/lib/rpm/openEuler/xxxx
+       to /usr/lib/xxxx
+
 * Web Mar 03 2021 wuchaochao<wuchaochao4@huawei.com> - 4:5.32.0-3
 - Type:bugfix
 - ID:NA
