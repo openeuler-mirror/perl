@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        4
+Release:        5
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -54,7 +54,7 @@ Requires:       perl-File-Fetch perl-File-Path perl-File-Temp perl-Filter-Simple
 Requires:       perl-IO-Compress perl-IO-Socket-IP perl-autodie perl-bignum perl-B-Debug perl-encoding
 Requires:       perl-Exporter perl-experimental perl-Compress-Raw-Bzip2 perl-Compress-Raw-Zlib perl-HTTP-Tiny
 Requires:       perl-Locale-Codes perl-Locale-Maketext perl-Math-BigInt perl-Math-BigInt-FastCalc perl-Math-BigRat
-Requires:       perl-Archive-Tar perl-Config-Perl-V perl-Data-Dumper perl-DB_File perl-Getopt-Long perl-libnet
+Requires:       perl-Archive-Tar perl-Config-Perl-V perl-Data-Dumper perl-Getopt-Long perl-libnet
 Requires:       perl-IPC-Cmd perl-IPC-SysV perl-JSON-PP perl-MIME-Base64 perl-Params-Check perl-Storable
 Requires:       perl-Pod-Checker perl-Pod-Escapes perl-Pod-Parser perl-Pod-Perldoc perl-Pod-Simple perl-Pod-Usage
 Requires:       perl-Module-CoreList perl-Module-CoreList-tools perl-Module-Load perl-Module-Load-Conditional
@@ -484,6 +484,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jun 29 2021 yuanxin<yuanxin24@huawei.com> - 4:5.32.0-5
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:remove perl-DB_File
+
 * Thu Mar 30 2021 shenyangyang<shenyangyang4@huawei.com> - 4:5.32.0-4
 - Type:bugfix
 - ID:NA
