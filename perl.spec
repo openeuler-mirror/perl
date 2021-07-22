@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        5
+Release:        6
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -38,7 +38,7 @@ Patch4:         perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-
 Patch5:		backport-perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
-BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators gdb
+BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
 
 Requires:       perl-libs = %{epoch}:%{version}-%{release}
 Requires:       perl-version perl-threads perl-threads-shared perl-parent
@@ -484,6 +484,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Thu Jul 22 2021 liudabo<liudabo1@huawei.com> 4:5.32.0-6
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:deleting gdb build dependency
+
 * Tue Jun 29 2021 yuanxin<yuanxin24@huawei.com> - 4:5.32.0-5
 - Type:enhancement
 - ID:NA
