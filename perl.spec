@@ -18,7 +18,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        5.28.3
-Release:        6
+Release:        7
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -211,7 +211,6 @@ ln -s ../../../bin/xsubpp %{buildroot}%{perl_datadir}/ExtUtils/
 
 rm %{buildroot}%{perl_libdir}/.packlist
 
-# bug #973713
 rm %{buildroot}/%{perl_libdir}/File/Spec/VMS.pm
 rm %{buildroot}%{_mandir}/man3/File::Spec::VMS.3*
 
@@ -514,6 +513,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Wed Aug 4 2021 yuanxin<yuanxin24@huawei.com> - 4:5.28.3-7
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:remove other release-related information
+
 * Thu Mar 30 2021 shenyangyang<shenyangyang4@huawei.com> - 4:5.28.3-6
 - Type:bugfix
 - ID:NA
