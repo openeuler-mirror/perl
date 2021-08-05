@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        7
+Release:        8
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -42,9 +42,9 @@ BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
 
 Requires:       perl-libs = %{epoch}:%{version}-%{release}
 Requires:       perl-version perl-threads perl-threads-shared perl-parent
-Requires:       perl-devel = %{epoch}:%{version}-%{release} system-rpm-config
+Requires:       system-rpm-config
 Requires:       perl-Unicode-Collate perl-Unicode-Normalize perl-Time-Local perl-Time-HiRes
-Requires:       perl-Thread-Queue perl-Text-Tabs+Wrap perl-Test-Simple perl-Test-Harness perl-devel
+Requires:       perl-Thread-Queue perl-Text-Tabs+Wrap perl-Test-Simple perl-Test-Harness 
 Requires:       perl-Text-Balanced perl-Text-ParseWords perl-Term-ANSIColor perl-Term-Cap
 Requires:       perl-Socket perl-podlators perl-Scalar-List-Utils perl-perlfaq perl-constant
 Requires:       perl-Digest-SHA perl-Digest perl-Digest-MD5 perl-Devel-PPPort perl-Carp perl-Env
@@ -483,6 +483,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Thu Aug 5 2021 yuanxin<yuanxin24@huawei.com> 4:5.32.0-8
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:remove perl-devel from perl
+
 * Wed Aug 4 2021 yuanxin<yuanxin24@huawei.com> 4:5.32.0-7
 - Type:bugfix
 - ID:NA
