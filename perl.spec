@@ -14,30 +14,27 @@
 #provides module without verion, no need to provide
 %global __provides_exclude %{?__provides_exclude:%__provides_exclude|}^perl\\((charnames|DynaLoader|DB)\\)$
 
-%global perl_version 5.32.0
+%global perl_version 5.34.0
 
-%global perl_compat perl(:MODULE_COMPAT_5.32.0)
+%global perl_compat perl(:MODULE_COMPAT_5.34.0)
 
 Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        8
+Release:        1
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
 
-# PATCH-FEATURE-OPENEULER
-Patch1:         change-lib-to-lib64.patch
-# PATCH-FEATURE-OPENEULER
-Patch2:         disable-rpath-by-default.patch
-# PATCH-FIX-OPENEULER
-Patch3:         create-libperl-soname.patch
-# PATCH-FIX-OPENEULER--rh#1107543, RT#61912
-Patch4:         perl-5.18.2-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
-Patch5:		backport-perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
+Patch1: perl-5.22.1-Provide-ExtUtils-MM-methods-as-standalone-ExtUtils-M.patch
+Patch2: perl-5.16.3-create_libperl_soname.patch
+Patch3: perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
+Patch4:  perl-5.34.0-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
+Patch5:  perl-5.35.1-Fix-GDBM_File-to-compile-with-version-1.20-and-earli.patch
+Patch6:   perl-5.35.1-Raise-version-number-in-ext-GDBM_File-GDBM_File.pm.patch
 
-BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel
+BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel perl-File-Compare perl-File-Find 
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
 
 Requires:       perl-libs = %{epoch}:%{version}-%{release}
@@ -63,11 +60,11 @@ Requires:       perl-Module-Metadata perl-Sys-Syslog perl-PerlIO-via-QuotedPrint
 Provides:       perl-Attribute-Handlers perl-interpreter perl(bytes_heavy.pl) perl(dumpvar.pl) perl(perl5db.pl)
 Provides:       perl-ExtUtils-Embed perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex
 Provides:       perl-Module-Loaded perl-Net-Ping perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
-Provides:       perl-Errno perl-Memoize
+Provides:       perl-Errno perl-Memoize perl-File-Compare perl-File-Find
 
 Obsoletes:      perl-Attribute-Handlers perl-interpreter perl-Errno perl-ExtUtils-Embed perl-Net-Ping
 Obsoletes:      perl-ExtUtils-Miniperl perl-IO perl-IO-Zlib perl-Locale-Maketext-Simple perl-Math-Complex perl-Memoize perl-Module-Loaded
-Obsoletes:      perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils
+Obsoletes:      perl-Pod-Html perl-SelfLoader perl-Test perl-Time-Piece perl-libnetcfg perl-open perl-utils perl-File-Compare perl-File-Find
 
 
 %description
@@ -78,9 +75,9 @@ prototyping and large scale development projects.
 %package libs
 Summary:        The libraries for the perl
 License:        (GPL+ or Artistic) and HSRL and MIT and UCD
-Provides:       perl(:MODULE_COMPAT_5.28.0) perl(:VERSION) = 5.28.0
+Provides:       perl(:MODULE_COMPAT_5.32.0) perl(:VERSION) = 5.32.0
 Provides:       %perl_compat
-Provides:       perl(:VERSION) = %{perl_version} libperl.so.5.28()(64bit)
+Provides:       perl(:VERSION) = %{perl_version} libperl.so.5.32()(64bit)
 Provides:       perl(:WITH_64BIT) perl(:WITH_ITHREADS) perl(:WITH_THREADS)
 Provides:       perl(:WITH_LARGEFILES) perl(:WITH_PERLIO) perl(unicore::Name)
 Provides:       perl(utf8_heavy.pl)
@@ -405,6 +402,11 @@ make test_harness
 %exclude %{perl_datadir}/{integer.pm,strict.pm,unicore,utf8.pm}
 %exclude %{perl_datadir}/{utf8_heavy.pl,warnings.pm,XSLoader.pm}
 %exclude %dir %{perl_vendor_datadir}
+%dir %{perl_datadir}/File
+%{perl_datadir}/File/Compare.pm
+%{_mandir}/man3/File::Compare.3*
+%{perl_datadir}/File/Find.pm
+%{_mandir}/man3/File::Find.3*
 
 %license Artistic Copying
 %doc AUTHORS
@@ -483,6 +485,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Wed Dec 29 2021 tianwei<tianwei12@huawei.com> 4:5.34.0-1
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:upgrade version to 5.34.0
+
 * Thu Aug 5 2021 yuanxin<yuanxin24@huawei.com> 4:5.32.0-8
 - Type:bugfix
 - ID:NA
