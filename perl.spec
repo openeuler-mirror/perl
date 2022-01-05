@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        1
+Release:        2
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -91,7 +91,8 @@ Summary:        Development files for %{name}
 License:        (GPL+ or Artistic) and UCD
 
 Requires:       perl = %{epoch}:%{version}-%{release} system-rpm-config systemtap-sdt-devel
-Requires:       perl(ExtUtils::ParseXS) perl(:MODULE_COMPAT_5.28.0) perl(Devel::PPPort)
+Requires:       perl(ExtUtils::ParseXS) perl(Devel::PPPort)
+Requires:       %perl_compat
 
 Provides:       perl-Devel-Peek perl-Devel-SelfStubber perl-tests
 
@@ -485,6 +486,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jan 05 2022 tianwei<tianwei12@huawei.com> 4:5.34.0-2
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:fix perl version required for devel
+
 * Wed Dec 29 2021 tianwei<tianwei12@huawei.com> 4:5.34.0-1
 - Type:bugfix
 - ID:NA
