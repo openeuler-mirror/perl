@@ -22,7 +22,7 @@ Name:           perl
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic) and MIT and UCD and Public Domain and BSD
 Epoch:          4
 Version:        %{perl_version}
-Release:        2
+Release:        3
 Summary:        A highly capable, feature-rich programming language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/%{name}-%{version}.tar.xz
@@ -33,6 +33,8 @@ Patch3: perl-5.22.0-Install-libperl.so-to-shrpdir-on-Linux.patch
 Patch4:  perl-5.34.0-Destroy-GDBM-NDBM-ODBM-SDBM-_File-objects-only-from-.patch
 Patch5:  perl-5.35.1-Fix-GDBM_File-to-compile-with-version-1.20-and-earli.patch
 Patch6:   perl-5.35.1-Raise-version-number-in-ext-GDBM_File-GDBM_File.pm.patch
+
+Patch6000: backport-CVE-2021-36770.patch
 
 BuildRequires:  gcc bash findutils coreutils make tar procps bzip2-devel gdbm-devel perl-File-Compare perl-File-Find 
 BuildRequires:  zlib-devel systemtap-sdt-devel perl-interpreter perl-generators
@@ -486,6 +488,12 @@ make test_harness
 %{_mandir}/man3/*
 
 %changelog
+* Thu Feb 24 2022 yuanxin<yuanxin24@h-partners.com> 4:5.34.0-3
+- Type:CVE
+- ID:CVE-2021-36770
+- SUG:NA
+- DESC:fix CVE-2021-36770
+
 * Wed Jan 05 2022 tianwei<tianwei12@huawei.com> 4:5.34.0-2
 - Type:bugfix
 - ID:NA
